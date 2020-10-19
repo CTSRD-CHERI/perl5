@@ -7134,7 +7134,7 @@ case "$myarchname" in
 esac
 case "$targetarch" in
 '') ;;
-*)  archname=`echo $targetarch|sed 's,^[^-]*-,,'` ;;
+*)  archname="$targetarch";;
 esac
 myarchname="$tarch"
 case "$archname" in
