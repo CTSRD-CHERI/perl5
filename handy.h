@@ -1428,7 +1428,7 @@ or casts
    (  (sizeof(c) == sizeof(U8))  ? inRANGE_helper_(U8, (c), (l), ((u)))     \
     : (sizeof(c) == sizeof(U16)) ? inRANGE_helper_(U16,(c), (l), ((u)))     \
     : (sizeof(c) == sizeof(U32)) ? inRANGE_helper_(U32,(c), (l), ((u)))     \
-             : (__ASSERT_(sizeof(c) == sizeof(WIDEST_UTYPE))                \
+    : (__ASSERT_(sizeof(c) == sizeof(WIDEST_UTYPE) || sizeof(c) == sizeof(UV)) \
                           inRANGE_helper_(WIDEST_UTYPE,(c), (l), ((u))))))
 
 /* For internal use, this is used by machine-generated code which generates
