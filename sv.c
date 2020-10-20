@@ -872,9 +872,9 @@ available in hv.c.
 */
 
 struct body_details {
-    U8 body_size;	/* Size to allocate  */
-    U8 copy;		/* Size of structure to copy (may be shorter)  */
-    U8 offset;		/* Size of unalloced ghost fields to first alloced field*/
+    U16 body_size;	/* Size to allocate  */
+    U16 copy;		/* Size of structure to copy (may be shorter)  */
+    U16 offset;		/* Size of unalloced ghost fields to first alloced field*/
     PERL_BITFIELD8 type : 4;        /* We have space for a sanity check. */
     PERL_BITFIELD8 cant_upgrade : 1;/* Cannot upgrade this type */
     PERL_BITFIELD8 zero_nv : 1;     /* zero the NV when upgrading from this */
