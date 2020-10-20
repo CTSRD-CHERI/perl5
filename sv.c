@@ -2886,17 +2886,17 @@ static const union {
     '9', '8', '9', '9'
 }};
 
-/* uiv_2buf(): private routine for use by sv_2pv_flags(): print an IV or
+/* uivint_2buf(): private routine for use by sv_2pv_flags(): print an IV or
  * UV as a string towards the end of buf, and return pointers to start and
  * end of it.
  *
- * We assume that buf is at least TYPE_CHARS(UV) long.
+ * We assume that buf is at least TYPE_CHARS(UVINT) long.
  */
 
 PERL_STATIC_INLINE char *
-S_uiv_2buf(char *const buf, const IV iv, UV uv, const int is_uv, char **const peob)
+S_uivint_2buf(char *const buf, const IV iv, UV uv, const int is_uv, char **const peob)
 {
-    char *ptr = buf + TYPE_CHARS(UV);
+    char *ptr = buf + TYPE_CHARS(UVINT);
     char * const ebuf = ptr;
     int sign;
     U16 *word_ptr, *word_table;
@@ -3144,9 +3144,9 @@ Perl_sv_2pv_flags(pTHX_ SV *const sv, STRLEN *const lp, const I32 flags)
 	   converting the IV is going to be more efficient */
 	const U32 isUIOK = SvIsUV(sv);
         /* The purpose of this union is to ensure that arr is aligned on
-           a 2 byte boundary, because that is what uiv_2buf() requires */
+           a 2 byte boundary, because that is what uivint_2buf() requires */
         union {
-            char arr[TYPE_CHARS(UV)];
+            char arr[TYPE_CHARS(UVINT)];
             U16 dummy;
         } buf;
 	char *ebuf, *ptr;
@@ -3154,7 +3154,7 @@ Perl_sv_2pv_flags(pTHX_ SV *const sv, STRLEN *const lp, const I32 flags)
 
 	if (SvTYPE(sv) < SVt_PVIV)
 	    sv_upgrade(sv, SVt_PVIV);
-        ptr = uiv_2buf(buf.arr, SvIVX(sv), SvUVX(sv), isUIOK, &ebuf);
+        ptr = uivint_2buf(buf.arr, SvIVX(sv), SvUVX(sv), isUIOK, &ebuf);
 	len = ebuf - ptr;
 	/* inlined from sv_setpvn */
 	s = SvGROW_mutable(sv, len + 1);
@@ -10721,7 +10721,7 @@ Perl_sv_tainted(pTHX_ SV *const sv)
     return FALSE;
 }
 
-#ifndef NO_MATHOMS  /* Can't move these to mathoms.c because call uiv_2buf(),
+#ifndef NO_MATHOMS  /* Can't move these to mathoms.c because call uivint_2buf(),
                        private to this file */
 
 /*
@@ -10737,13 +10737,13 @@ void
 Perl_sv_setpviv(pTHX_ SV *const sv, const IV iv)
 {
     /* The purpose of this union is to ensure that arr is aligned on
-       a 2 byte boundary, because that is what uiv_2buf() requires */
+       a 2 byte boundary, because that is what uivint_2buf() requires */
     union {
-        char arr[TYPE_CHARS(UV)];
+        char arr[TYPE_CHARS(UVINT)];
         U16 dummy;
     } buf;
     char *ebuf;
-    char * const ptr = uiv_2buf(buf.arr, iv, 0, 0, &ebuf);
+    char * const ptr = uivint_2buf(buf.arr, iv, 0, 0, &ebuf);
 
     PERL_ARGS_ASSERT_SV_SETPVIV;
 
