@@ -2894,7 +2894,7 @@ static const union {
  */
 
 PERL_STATIC_INLINE char *
-S_uivint_2buf(char *const buf, const IV iv, UV uv, const int is_uv, char **const peob)
+S_uivint_2buf(char *const buf, const IVINT iv, UVINT uv, const int is_uv, char **const peob)
 {
     char *ptr = buf + TYPE_CHARS(UVINT);
     char * const ebuf = ptr;
