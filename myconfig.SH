@@ -58,6 +58,7 @@ Summary of my $package (revision $revision $version_patchlevel_string) configura
     intsize=$intsize
     longsize=$longsize
     ptrsize=$ptrsize
+    ptraddrsize=$ptraddrsize
     doublesize=$doublesize
     byteorder=$byteorder
     doublekind=$doublekind
