@@ -2094,7 +2094,7 @@ S_gv_magicalize(pTHX_ GV *gv, HV *stash, const char *name, STRLEN len,
                     AV* const av = GvAVn(gv);
                     const Size_t n = *name;
 
-                    sv_magic(MUTABLE_SV(av), (SV*)n, PERL_MAGIC_regdata, NULL, 0);
+                    sv_magic(MUTABLE_SV(av), (SV*)(IV)n, PERL_MAGIC_regdata, NULL, 0);
                     SvREADONLY_on(av);
 
                     require_tie_mod_s(gv, '+', "Tie::Hash::NamedCapture",0);
@@ -2264,7 +2264,7 @@ S_gv_magicalize(pTHX_ GV *gv, HV *stash, const char *name, STRLEN len,
                 AV* const av = GvAVn(gv);
                 const Size_t n = *name;
 
-                sv_magic(MUTABLE_SV(av), (SV*)n, PERL_MAGIC_regdata, NULL, 0);
+                sv_magic(MUTABLE_SV(av), (SV*)(UV)n, PERL_MAGIC_regdata, NULL, 0);
                 SvREADONLY_on(av);
             }
             break;
