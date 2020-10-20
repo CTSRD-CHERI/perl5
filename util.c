@@ -5414,7 +5414,7 @@ Perl_xs_handshake(const U32 key, void * v_my_perl, const char * file, ...)
     va_start(args, file);
 
     got = INT2PTR(void*, (UV)(key & HSm_KEY_MATCH));
-    need = (void *)(HS_KEY(FALSE, FALSE, "", "") & HSm_KEY_MATCH);
+    need = (void *)(UV)(HS_KEY(FALSE, FALSE, "", "") & HSm_KEY_MATCH);
     if (UNLIKELY(got != need))
 	goto bad_handshake;
 /* try to catch where a 2nd threaded perl interp DLL is loaded into a process

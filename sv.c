@@ -2057,7 +2057,7 @@ S_sv_2iuv_non_preserve(pTHX_ SV *const sv
     PERL_ARGS_ASSERT_SV_2IUV_NON_PRESERVE;
     PERL_UNUSED_CONTEXT;
 
-    DEBUG_c(PerlIO_printf(Perl_debug_log,"sv_2iuv_non '%s', IV=0x%" UVxf " NV=%" NVgf " inttype=%" UVXf "\n", SvPVX_const(sv), SvIVX(sv), SvNVX(sv), (UV)numtype));
+    DEBUG_c(PerlIO_printf(Perl_debug_log,"sv_2iuv_non '%s', IV=0x%" UVxf " NV=%" NVgf " inttype=%" UVXf "\n", SvPVX_const(sv), SvUVX(sv), SvNVX(sv), (UV)numtype));
     if (SvNVX(sv) < (NV)IV_MIN) {
 	(void)SvIOKp_on(sv);
 	(void)SvNOK_on(sv);
@@ -2222,7 +2222,7 @@ S_sv_2iuv_common(pTHX_ SV *const sv)
 				  "0x%" UVxf " 2iv(%" UVuf " => %" IVdf ") (as unsigned)\n",
 				  PTR2UV(sv),
 				  SvUVX(sv),
-				  SvUVX(sv)));
+				  SvIVX(sv)));
 	}
     }
     else if (SvPOKp(sv)) {
@@ -9061,7 +9061,7 @@ Perl_sv_inc_nomg(pTHX_ SV *const sv)
 	       And if we do get here I suspect that sv_setnv will croak. NWC
 	       Fall through. */
 	    DEBUG_c(PerlIO_printf(Perl_debug_log,"sv_inc punt failed to convert '%s' to IOK or NOKp, UV=0x%" UVxf " NV=%" NVgf "\n",
-				  SvPVX_const(sv), SvIVX(sv), SvNVX(sv)));
+				  SvPVX_const(sv), SvUVX(sv), SvNVX(sv)));
 	}
 #endif /* PERL_PRESERVE_IVUV */
         if (!numtype && ckWARN(WARN_NUMERIC))
@@ -9239,7 +9239,7 @@ Perl_sv_dec_nomg(pTHX_ SV *const sv)
 	       And if we do get here I suspect that sv_setnv will croak. NWC
 	       Fall through. */
 	    DEBUG_c(PerlIO_printf(Perl_debug_log,"sv_dec punt failed to convert '%s' to IOK or NOKp, UV=0x%" UVxf " NV=%" NVgf "\n",
-				  SvPVX_const(sv), SvIVX(sv), SvNVX(sv)));
+				  SvPVX_const(sv), SvUVX(sv), SvNVX(sv)));
 	}
     }
 #endif /* PERL_PRESERVE_IVUV */

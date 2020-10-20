@@ -162,9 +162,9 @@ Points directly to the body of the L</PL_comppad> array.
 void
 Perl_set_padlist(CV * cv, PADLIST *padlist){
     PERL_ARGS_ASSERT_SET_PADLIST;
-#  if PTRSIZE == 8
+#  if PTRADDRSIZE == 8
     assert((Size_t)padlist != UINT64_C(0xEFEFEFEFEFEFEFEF));
-#  elif PTRSIZE == 4
+#  elif PTRADDRSIZE == 4
     assert((Size_t)padlist != 0xEFEFEFEF);
 #  else
 #    error unknown pointer size
