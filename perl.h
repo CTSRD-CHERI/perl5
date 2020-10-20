@@ -1902,6 +1902,8 @@ my_snprintf()
 
 typedef IVTYPE IV;
 typedef UVTYPE UV;
+typedef IVINTTYPE IVINT;
+typedef UVINTTYPE UVINT;
 
 #if defined(USE_64_BIT_INT) && defined(HAS_QUAD)
 #  if QUADKIND == QUAD_IS_INT64_T && defined(INT64_MAX)
