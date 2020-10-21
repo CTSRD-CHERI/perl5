@@ -12365,6 +12365,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
 	case 'z':
 	case 't':
         case 'j':
+	case 'P':
 	    intsize = *q++;
 	    break;
 	}
@@ -12688,6 +12689,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
 #endif
                         default:   iv = va_arg(*args, int);        break;
                         case 'j':  iv = (IV) va_arg(*args, PERL_INTMAX_T); break;
+                        case 'P':  iv = va_arg(*args, PERL_INTPTR_T); break;
                         case 'q':
 #if IVSIZE >= 8
                                    iv = va_arg(*args, Quad_t);     break;
@@ -12706,6 +12708,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
                         case 'l':  iv = (long)tiv;   break;
                         case 'V':
                         default:   iv = tiv;         break;
+                        case 'P':  iv = (PERL_INTPTR_T)tiv; break;
                         case 'q':
 #if IVSIZE >= 8
                                    iv = (Quad_t)tiv; break;
@@ -12745,6 +12748,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
 #endif
                         case 'j': uv = (UV) va_arg(*args, PERL_UINTMAX_T); break;
                         default:  uv = va_arg(*args, unsigned);      break;
+                        case 'P': uv = va_arg(*args, PERL_UINTPTR_T); break;
                         case 'q':
 #if IVSIZE >= 8
                                   uv = va_arg(*args, Uquad_t);       break;
@@ -12763,6 +12767,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
                         case 'l': uv = (unsigned long)tuv;  break;
                         case 'V':
                         default:  uv = tuv;                 break;
+                        case 'P': uv = (PERL_UINTPTR_T)tuv; break;
                         case 'q':
 #if IVSIZE >= 8
                                   uv = (Uquad_t)tuv;        break;
@@ -12906,6 +12911,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
 	    case 'z':
 	    case 't':
 	    case 'j':
+	    case 'P':
 		goto unknown;
 	    }
 
@@ -13292,6 +13298,7 @@ Perl_sv_vcatpvfn_flags(pTHX_ SV *const sv, const char *const pat, const STRLEN p
                     case 't':  *(va_arg(*args, ptrdiff_t*)) = i; break;
 #endif
                     case 'j':  *(va_arg(*args, PERL_INTMAX_T*)) = i; break;
+                    case 'P':  *(va_arg(*args, PERL_INTPTR_T*)) = i; break;
                     case 'q':
 #if IVSIZE >= 8
                                *(va_arg(*args, Quad_t*))    = i; break;
