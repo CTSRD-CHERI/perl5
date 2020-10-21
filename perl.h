@@ -1124,6 +1124,21 @@ Use C<L</UINTMAX_C>> to get the largest type available on the platform.
 #ifdef I_STDINT
     typedef intmax_t  PERL_INTMAX_T;
     typedef uintmax_t PERL_UINTMAX_T;
+    typedef intptr_t  PERL_INTPTR_T;
+    typedef uintptr_t PERL_UINTPTR_T;
+#elif PTRSIZE == PTRADDRSIZE
+    /* PERL_INTMAX_T / PERL_UINTMAX_T defined later */
+#   if PTRSIZE == 4
+       typedef I32 PERL_INTPTR_T;
+       typedef U32 PERL_UNTPTR_T;
+#   elif PTRSIZE == 8
+       typedef I64 PERL_INTPTR_T;
+       typedef U64 PERL_UNTPTR_T;
+#   else
+#      error unknown pointer size
+#   endif
+#else
+#   error stdint.h required when PTRSIZE and PTRADDRSIZE differ
 #endif
 
 /* N.B.  We use QUADKIND here instead of HAS_QUAD here, because that doesn't
