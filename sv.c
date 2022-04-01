@@ -13870,7 +13870,7 @@ Perl_ptr_table_new(pTHX)
 }
 
 #define PTR_TABLE_HASH(ptr) \
-  ((PTR2UV(ptr) >> 3) ^ (PTR2UV(ptr) >> (3 + 7)) ^ (PTR2UV(ptr) >> (3 + 17)))
+  ((PTR2UVINT(ptr) >> 3) ^ (PTR2UVINT(ptr) >> (3 + 7)) ^ (PTR2UVINT(ptr) >> (3 + 17)))
 
 /* map an existing pointer using a table */
 
