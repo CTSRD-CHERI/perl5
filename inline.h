@@ -1866,7 +1866,7 @@ Perl_utf8n_to_uvchr_msgs(const U8 *s,
     const U8 * const s0 = s;
     const U8 * send = s0 + curlen;
     UV uv = 0;      /* The 0 silences some stupid compilers */
-    UV state = 0;
+    UVINT state = 0;
 
     PERL_ARGS_ASSERT_UTF8N_TO_UVCHR_MSGS;
 
@@ -1876,7 +1876,7 @@ Perl_utf8n_to_uvchr_msgs(const U8 *s,
      * cases. */
 
     while (s < send && LIKELY(state != 1)) {
-        UV type = PL_strict_utf8_dfa_tab[*s];
+        UVINT type = PL_strict_utf8_dfa_tab[*s];
 
         uv = (state == 0)
              ?  ((0xff >> type) & NATIVE_UTF8_TO_I8(*s))
