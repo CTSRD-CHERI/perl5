@@ -2156,6 +2156,7 @@ You probably want to be using L<C</INT2PTR>> instead.
 #define NUM2PTR(any,d)	(any)(PTRV)(d)
 #define PTR2IV(p)	INT2PTR(IV,p)
 #define PTR2UV(p)	INT2PTR(UV,p)
+#define PTR2UVINT(p)	INT2PTR(UVINT,p)
 #define PTR2NV(p)	NUM2PTR(NV,p)
 #define PTR2nat(p)	(PTRV)(p)	/* pointer to integer of PTRSIZE */
 
