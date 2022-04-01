@@ -2881,7 +2881,7 @@ S_uivint_2buf(char *const buf, const IVINT iv, UVINT uv, const int is_uv, char *
     int sign;
     U16 *word_ptr, *word_table;
 
-    PERL_ARGS_ASSERT_UIV_2BUF;
+    PERL_ARGS_ASSERT_UIVINT_2BUF;
 
     /* ptr has to be properly aligned, because we will cast it to U16* */
     assert(PTR2nat(ptr) % 2 == 0);

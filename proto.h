@@ -6394,9 +6394,9 @@ PERL_STATIC_INLINE void	S_sv_unglob(pTHX_ SV *const sv, U32 flags);
 	assert(sv)
 #endif
 #ifndef PERL_NO_INLINE_FUNCTIONS
-PERL_STATIC_INLINE char *	S_uivint_2buf(char *const buf, const IVINT iv, UVINT uv, const int is_uvint, char **const peob)
+PERL_STATIC_INLINE char *	S_uivint_2buf(char *const buf, const IVINT iv, UVINT uv, const int is_uv, char **const peob)
 			__attribute__warn_unused_result__;
-#define PERL_ARGS_ASSERT_UIV_2BUF	\
+#define PERL_ARGS_ASSERT_UIVINT_2BUF	\
 	assert(buf); assert(peob)
 #endif
 
