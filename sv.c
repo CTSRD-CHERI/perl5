@@ -13910,7 +13910,7 @@ STATIC PTR_TBL_ENT_t *
 S_ptr_table_find(PTR_TBL_t *const tbl, const void *const sv)
 {
     PTR_TBL_ENT_t *tblent;
-    const UV hash = PTR_TABLE_HASH(sv);
+    const UVINT hash = PTR_TABLE_HASH(sv);
 
     PERL_ARGS_ASSERT_PTR_TABLE_FIND;
 
@@ -13948,7 +13948,7 @@ Perl_ptr_table_store(pTHX_ PTR_TBL_t *const tbl, const void *const oldsv, void *
     if (tblent) {
 	tblent->newval = newsv;
     } else {
-	const UV entry = PTR_TABLE_HASH(oldsv) & tbl->tbl_max;
+	const UVINT entry = PTR_TABLE_HASH(oldsv) & tbl->tbl_max;
 
 	if (tbl->tbl_arena_next == tbl->tbl_arena_end) {
 	    struct ptr_tbl_arena *new_arena;
@@ -13978,8 +13978,8 @@ void
 Perl_ptr_table_split(pTHX_ PTR_TBL_t *const tbl)
 {
     PTR_TBL_ENT_t **ary = tbl->tbl_ary;
-    const UV oldsize = tbl->tbl_max + 1;
-    UV newsize = oldsize * 2;
+    const UVINT oldsize = tbl->tbl_max + 1;
+    UVINT newsize = oldsize * 2;
     UV i;
 
     PERL_ARGS_ASSERT_PTR_TABLE_SPLIT;
