@@ -1632,7 +1632,7 @@ pMb	|OP*	|ref		|NULLOK OP* o|I32 type
 S	|OP*	|refkids	|NULLOK OP* o|I32 type
 #endif
 
-ATp	|void	|repeatcpy	|NN char* to|NN const char* from|I32 len|IV count
+ATp	|void	|repeatcpy	|NN char* to|NN const char* from|I32 len|IVINT count
 AdTpP	|char*	|rninstr	|NN const char* big|NN const char* bigend \
 				|NN const char* little|NN const char* lend
 Apd	|Sighandler_t|rsignal	|int i|Sighandler_t t

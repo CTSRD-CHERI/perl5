@@ -2913,7 +2913,7 @@ PERL_CALLCONV regnode*	Perl_regnext(pTHX_ regnode* p)
 			__attribute__warn_unused_result__;
 #define PERL_ARGS_ASSERT_REGNEXT
 
-PERL_CALLCONV void	Perl_repeatcpy(char* to, const char* from, I32 len, IV count);
+PERL_CALLCONV void	Perl_repeatcpy(char* to, const char* from, I32 len, IVINT count);
 #define PERL_ARGS_ASSERT_REPEATCPY	\
 	assert(to); assert(from)
 PERL_CALLCONV void	Perl_report_evil_fh(pTHX_ const GV *gv);
