@@ -7850,8 +7850,8 @@ S_pmtrans(pTHX_ OP *o, OP *expr, OP *repl)
                     r_map[i+2] = TR_UNLISTED;
                 }
                 DEBUG_yv(PerlIO_printf(Perl_debug_log,
-                          "After iteration: span=%" UVuf ", t_range_count=%"
-                          UVuf " r_range_count=%" UVuf "\n",
+                          "After iteration: span=%lu, t_range_count=%lu"
+                          " r_range_count=%lu\n",
                           span, t_range_count, r_range_count));
                 DEBUG_yv(invmap_dump(t_invlist, r_map));
             } /* End of this chunk needs to be processed */
