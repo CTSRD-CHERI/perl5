@@ -1962,7 +1962,7 @@ S_lossless_NV_to_IV(const NV nv, IV *ivp)
 
 #  endif
 
-    if (UNLIKELY(nv < IV_MIN) || UNLIKELY(nv > IV_MAX)) {
+    if (UNLIKELY(nv < (NV) IV_MIN) || UNLIKELY(nv >= IV_MAX_P1)) {
         return FALSE;
     }
 
