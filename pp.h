@@ -522,9 +522,9 @@ Does not use C<TARG>.  See also C<L</XPUSHu>>, C<L</mPUSHu>> and C<L</PUSHu>>.
 #define USE_LEFT(sv) \
         (SvOK(sv) || !(PL_op->op_flags & OPf_STACKED))
 #define dPOPXiirl_ul_nomg(X) \
-    IV right = (sp--, SvIV_nomg(TOPp1s));		\
+    IVINT right = (sp--, SvIV_nomg(TOPp1s));		\
     SV *leftsv = CAT2(X,s);				\
-    IV left = USE_LEFT(leftsv) ? SvIV_nomg(leftsv) : 0
+    IVINT left = USE_LEFT(leftsv) ? SvIV_nomg(leftsv) : 0
 
 #define dPOPPOPssrl	dPOPXssrl(POP)
 #define dPOPPOPnnrl	dPOPXnnrl(POP)
@@ -537,7 +537,7 @@ Does not use C<TARG>.  See also C<L</XPUSHu>>, C<L</mPUSHu>> and C<L</PUSHu>>.
 #define dPOPTOPiirl	dPOPXiirl(TOP)
 #define dPOPTOPiirl_ul_nomg dPOPXiirl_ul_nomg(TOP)
 #define dPOPTOPiirl_nomg \
-    IV right = SvIV_nomg(TOPs); IV left = (sp--, SvIV_nomg(TOPs))
+    IVINT right = SvIV_nomg(TOPs); IVINT left = (sp--, SvIV_nomg(TOPs))
 
 #define RETPUSHYES	RETURNX(PUSHs(&PL_sv_yes))
 #define RETPUSHNO	RETURNX(PUSHs(&PL_sv_no))

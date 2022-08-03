@@ -2778,7 +2778,8 @@ Perl_utf16_to_utf8(pTHX_ U8* p, U8* d, Size_t bytelen, Size_t *newlen)
                 }
                 p += 2;
                 uv = ((uv - FIRST_HIGH_SURROGATE) << 10)
-                                + (low - FIRST_LOW_SURROGATE) + FIRST_IN_PLANE1;
+                                + (UVINT)(low - FIRST_LOW_SURROGATE)
+                                + FIRST_IN_PLANE1;
             }
         }
 #ifdef EBCDIC

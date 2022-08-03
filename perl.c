@@ -1741,7 +1741,7 @@ perl_parse(pTHXx_ XSINIT_t xsinit, int argc, char **argv, char **env)
 	 * the original argv[0].  (See below for 'contiguous', though.)
 	 * --jhi */
 	 const char *s = NULL;
-	 const UV mask = ~(UV)(PTRSIZE-1);
+	 const UVINT mask = ~(UVINT)(PTRSIZE-1);
          /* Do the mask check only if the args seem like aligned. */
 	 const UV aligned =
 	   (mask < ~(UV)0) && ((PTR2UV(argv[0]) & mask) == PTR2UV(argv[0]));
