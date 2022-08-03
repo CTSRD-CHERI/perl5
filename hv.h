@@ -50,6 +50,9 @@ struct hek {
      * dont work on aligned platforms like HPUX
      * Also beware, the last byte of the hek_key buffer is a
      * hidden flags byte about the key. */
+#ifdef __CHERI_PURE_CAPABILITY__
+    _Alignas(max_align_t)
+#endif
      char       hek_key[1];        /* variable-length hash key */
     /* the hash-key is \0-terminated */
     /* after the \0 there is a byte for flags, such as whether the key
