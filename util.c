@@ -3096,10 +3096,8 @@ Perl_repeatcpy(char *to, const char *from, I32 len, IVINT count)
 
 	linear = count < PERL_REPEATCPY_LINEAR ? count : PERL_REPEATCPY_LINEAR;
 	for (items = 0; items < linear; ++items) {
-	    const char *q = from;
-	    IV todo;
-	    for (todo = len; todo > 0; todo--)
-		*p++ = *q++;
+		memcpy(p, from, len);
+		p += len;
         }
 
 	half = count / 2;
