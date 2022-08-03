@@ -1102,7 +1102,7 @@ PP(pp_pow)
                 is_int = 1;
 
                 /* foo & (foo - 1) is zero only for a power of 2.  */
-                if (!(baseuv & (baseuv - 1))) {
+                if (!(baseuv & (UVINT)(baseuv - 1))) {
                     /* We are raising power-of-2 to a positive integer.
                        The logic here will work for any base (even non-integer
                        bases) but it can be less accurate than
@@ -1239,7 +1239,7 @@ PP(pp_multiply)
         U32 flags = (svl->sv_flags & svr->sv_flags);
         if (flags & SVf_IOK) {
             /* both args are simple IVs */
-            UV topl, topr;
+            UVINT topl, topr;
             il = SvIVX(svl);
             ir = SvIVX(svr);
           do_iv:
@@ -1253,10 +1253,10 @@ PP(pp_multiply)
              *     for 64-bits, its 33 bits */
             if (!(
                       ((topl+1) | (topr+1))
-                    & ( (((UV)1) << (UVSIZE * 4 + 1)) - 2) /* 11..110 */
+                    & (UVINT)( (((UV)1) << (UVSIZE * 4 + 1)) - 2) /* 11..110 */
             )) {
                 SP--;
-                TARGi(il * ir, 0); /* args not GMG, so can't be tainted */
+                TARGi((IVINT)il * (IVINT)ir, 0); /* args not GMG, so can't be tainted */
                 SETs(TARG);
                 RETURN;
             }
@@ -1295,12 +1295,12 @@ PP(pp_multiply)
 	if (SvIV_please_nomg(svl)) {
 	    bool auvok = SvUOK(svl);
 	    bool buvok = SvUOK(svr);
-	    const UV topmask = (~ (UV)0) << (4 * sizeof (UV));
-	    const UV botmask = ~((~ (UV)0) << (4 * sizeof (UV)));
-	    UV alow;
-	    UV ahigh;
-	    UV blow;
-	    UV bhigh;
+	    const UVINT topmask = (~ (UV)0) << (4 * sizeof (UV));
+	    const UVINT botmask = ~((~ (UV)0) << (4 * sizeof (UV)));
+	    UVINT alow;
+	    UVINT ahigh;
+	    UVINT blow;
+	    UVINT bhigh;
 
 	    if (auvok) {
 		alow = SvUVX(svl);
@@ -1340,7 +1340,7 @@ PP(pp_multiply)
 	    } else if (!ahigh && !bhigh) {
 		/* eg 32 bit is at most 0xFFFF * 0xFFFF == 0xFFFE0001
 		   so the unsigned multiply cannot overflow.  */
-		const UV product = alow * blow;
+		const UVINT product = alow * blow;
 		if (auvok == buvok) {
 		    /* -ve * -ve or +ve * +ve gives a +ve result.  */
 		    SP--;
@@ -1820,7 +1820,7 @@ PP(pp_subtract)
         U32 flags = (svl->sv_flags & svr->sv_flags);
         if (flags & SVf_IOK) {
             /* both args are simple IVs */
-            UV topl, topr;
+            UVINT topl, topr;
             il = SvIVX(svl);
             ir = SvIVX(svr);
           do_iv:
@@ -1832,7 +1832,7 @@ PP(pp_subtract)
              * are 00  or 11, then it's safe */
             if (!( ((topl+1) | (topr+1)) & 2)) {
                 SP--;
-                TARGi(il - ir, 0); /* args not GMG, so can't be tainted */
+                TARGi((IVINT)il - (IVINT)ir, 0); /* args not GMG, so can't be tainted */
                 SETs(TARG);
                 RETURN;
             }
@@ -1863,7 +1863,7 @@ PP(pp_subtract)
 	/* Unless the left argument is integer in range we are going to have to
 	   use NV maths. Hence only attempt to coerce the right argument if
 	   we know the left is integer.  */
-	UV auv = 0;
+	UVINT auv = 0;
 	bool auvok = FALSE;
 	bool a_valid = 0;
 
@@ -1891,7 +1891,7 @@ PP(pp_subtract)
 	if (a_valid) {
 	    bool result_good = 0;
 	    UV result;
-	    UV buv;
+	    UVINT buv;
 	    bool buvok = SvUOK(svr);
 
 	    if (buvok)
@@ -2324,11 +2324,11 @@ PP(pp_bit_and)
 	const bool left_ro_nonnum  = !SvNIOKp(left) && SvREADONLY(left);
 	const bool right_ro_nonnum = !SvNIOKp(right) && SvREADONLY(right);
 	if (PL_op->op_private & HINT_INTEGER) {
-	  const IV i = SvIV_nomg(left) & SvIV_nomg(right);
+	  const IV i = SvIV_nomg(left) & (IVINT)SvIV_nomg(right);
 	  SETi(i);
 	}
 	else {
-	  const UV u = SvUV_nomg(left) & SvUV_nomg(right);
+	  const UV u = SvUV_nomg(left) & (UVINT)SvUV_nomg(right);
 	  SETu(u);
 	}
 	if (left_ro_nonnum && left != TARG) SvNIOK_off(left);
@@ -2349,11 +2349,11 @@ PP(pp_nbit_and)
     {
 	dATARGET; dPOPTOPssrl;
 	if (PL_op->op_private & HINT_INTEGER) {
-	  const IV i = SvIV_nomg(left) & SvIV_nomg(right);
+	  const IV i = SvIV_nomg(left) & (IVINT)SvIV_nomg(right);
 	  SETi(i);
 	}
 	else {
-	  const UV u = SvUV_nomg(left) & SvUV_nomg(right);
+	  const UV u = SvUV_nomg(left) & (UVINT)SvUV_nomg(right);
 	  SETu(u);
 	}
     }
@@ -2385,15 +2385,15 @@ PP(pp_bit_or)
 	const bool left_ro_nonnum  = !SvNIOKp(left) && SvREADONLY(left);
 	const bool right_ro_nonnum = !SvNIOKp(right) && SvREADONLY(right);
 	if (PL_op->op_private & HINT_INTEGER) {
-	  const IV l = (USE_LEFT(left) ? SvIV_nomg(left) : 0);
-	  const IV r = SvIV_nomg(right);
-	  const IV result = op_type == OP_BIT_OR ? (l | r) : (l ^ r);
+	  const IVINT l = (USE_LEFT(left) ? SvIV_nomg(left) : 0);
+	  const IVINT r = SvIV_nomg(right);
+	  const IVINT result = op_type == OP_BIT_OR ? (l | r) : (l ^ r);
 	  SETi(result);
 	}
 	else {
-	  const UV l = (USE_LEFT(left) ? SvUV_nomg(left) : 0);
-	  const UV r = SvUV_nomg(right);
-	  const UV result = op_type == OP_BIT_OR ? (l | r) : (l ^ r);
+	  const UVINT l = (USE_LEFT(left) ? SvUV_nomg(left) : 0);
+	  const UVINT r = SvUV_nomg(right);
+	  const UVINT result = op_type == OP_BIT_OR ? (l | r) : (l ^ r);
 	  SETu(result);
 	}
 	if (left_ro_nonnum && left != TARG) SvNIOK_off(left);
@@ -2419,15 +2419,15 @@ PP(pp_nbit_or)
     {
 	dATARGET; dPOPTOPssrl;
 	if (PL_op->op_private & HINT_INTEGER) {
-	  const IV l = (USE_LEFT(left) ? SvIV_nomg(left) : 0);
-	  const IV r = SvIV_nomg(right);
-	  const IV result = op_type == OP_NBIT_OR ? (l | r) : (l ^ r);
+	  const IVINT l = (USE_LEFT(left) ? SvIV_nomg(left) : 0);
+	  const IVINT r = SvIV_nomg(right);
+	  const IVINT result = op_type == OP_NBIT_OR ? (l | r) : (l ^ r);
 	  SETi(result);
 	}
 	else {
-	  const UV l = (USE_LEFT(left) ? SvUV_nomg(left) : 0);
-	  const UV r = SvUV_nomg(right);
-	  const UV result = op_type == OP_NBIT_OR ? (l | r) : (l ^ r);
+	  const UVINT l = (USE_LEFT(left) ? SvUV_nomg(left) : 0);
+	  const UVINT r = SvUV_nomg(right);
+	  const UVINT result = op_type == OP_NBIT_OR ? (l | r) : (l ^ r);
 	  SETu(result);
 	}
     }
@@ -3182,13 +3182,13 @@ Perl_translate_substr_offsets( STRLEN curlen, IV pos1_iv,
 		pos2_is_uv = 0;
 	} else {  /* len_iv >= 0 */
 	    if (!pos1_is_uv && pos1_iv < 0) {
-		pos2_iv = pos1_iv + len_iv;
+		pos2_iv = pos1_iv + (IVINT)len_iv;
 		pos2_is_uv = (UV)len_iv > (UV)IV_MAX;
 	    } else {
 		if ((UV)len_iv > curlen-(UV)pos1_iv)
 		    pos2_iv = curlen;
 		else
-		    pos2_iv = pos1_iv+len_iv;
+		    pos2_iv = pos1_iv + (IVINT)len_iv;
 		pos2_is_uv = 1;
 	    }
 	}
@@ -6950,7 +6950,7 @@ PP(pp_argelem)
     /* This is a copy of the relevant parts of pp_aassign().
      */
     if ((o->op_private & OPpARGELEM_MASK) == OPpARGELEM_AV) {
-        IV i;
+        IVINT i;
 
         if (AvFILL((AV*)targ) > -1) {
             /* target should usually be empty. If we get get
@@ -6989,7 +6989,7 @@ PP(pp_argelem)
 
     }
     else {
-        IV i;
+        IVINT i;
 
         assert((o->op_private & OPpARGELEM_MASK) == OPpARGELEM_HV);
 

@@ -1425,7 +1425,7 @@ PP(pp_add)
              * are 00  or 11, then it's safe */
             if (!( ((topl+1) | (topr+1)) & 2)) {
                 SP--;
-                TARGi(il + ir, 0); /* args not GMG, so can't be tainted */
+                TARGi((IVINT)il + (IVINT)ir, 0); /* args not GMG, so can't be tainted */
                 SETs(TARG);
                 RETURN;
             }
@@ -1500,7 +1500,7 @@ PP(pp_add)
 	/* Unless the left argument is integer in range we are going to have to
 	   use NV maths. Hence only attempt to coerce the right argument if
 	   we know the left is integer.  */
-	UV auv = 0;
+	UVINT auv = 0;
 	bool auvok = FALSE;
 	bool a_valid = 0;
 
@@ -1532,7 +1532,7 @@ PP(pp_add)
 	if (a_valid) {
 	    bool result_good = 0;
 	    UV result;
-	    UV buv;
+	    UVINT buv;
 	    bool buvok = SvUOK(svr);
 	
 	    if (buvok)
@@ -3632,7 +3632,7 @@ PP(pp_multideref)
 
                     if (lval) {
                         if (!svp || !(sv = *svp)) {
-                            IV len;
+                            IVINT len;
                             if (!defer)
                                 DIE(aTHX_ PL_no_aelem, elem);
                             len = av_tindex(av);
@@ -5385,7 +5385,7 @@ PP(pp_aelem)
 	 }
 #endif
 	if (!svp || !*svp) {
-	    IV len;
+	    IVINT len;
 	    if (!defer)
 		DIE(aTHX_ PL_no_aelem, elem);
 	    len = av_tindex(av);
