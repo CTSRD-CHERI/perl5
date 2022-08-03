@@ -209,7 +209,7 @@ scope has the given name. C<name> must be a literal string.
         DEBUG_SCOPE("LEAVE \"" name "\"")				\
         if (PL_scopestack_name)	{					\
             assert(((char*)PL_scopestack_name[PL_scopestack_ix-1]	\
-                        == (char*)name)					\
+                        == (char*)&(name))				\
                     || strEQ(PL_scopestack_name[PL_scopestack_ix-1], name));        \
         }								\
         pop_scope();							\
