@@ -2619,9 +2619,9 @@ extern long double Perl_my_frexpl(long double x, int *e);
 #define PERL_LONG_MIN ((long)LONG_MIN)
 
 #ifdef UV_IS_QUAD
-#    define PERL_UQUAD_MAX	(~(UV)0)
-#    define PERL_UQUAD_MIN	((UV)0)
-#    define PERL_QUAD_MAX 	((IV) (PERL_UQUAD_MAX >> 1))
+#    define PERL_UQUAD_MAX	(~(UVINT)0)
+#    define PERL_UQUAD_MIN	((UVINT)0)
+#    define PERL_QUAD_MAX 	((IVINT) (PERL_UQUAD_MAX >> 1))
 #    define PERL_QUAD_MIN 	(-PERL_QUAD_MAX - ((3 & -1) == 3))
 #endif
 

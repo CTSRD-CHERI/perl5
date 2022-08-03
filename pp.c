@@ -1128,8 +1128,8 @@ PP(pp_pow)
                     SvIV_please_nomg(svr);
                     RETURN;
 		} else {
-		    unsigned int highbit = 8 * sizeof(UV);
-		    unsigned int diff = 8 * sizeof(UV);
+		    unsigned int highbit = 8 * sizeof(UVINT);
+		    unsigned int diff = 8 * sizeof(UVINT);
 		    while (diff >>= 1) {
 			highbit -= diff;
 			if (baseuv >> highbit) {
@@ -1137,7 +1137,7 @@ PP(pp_pow)
 			}
 		    }
 		    /* we now have baseuv < 2 ** highbit */
-		    if (power * highbit <= 8 * sizeof(UV)) {
+		    if (power * highbit <= 8 * sizeof(UVINT)) {
 			/* result will definitely fit in UV, so use UV math
 			   on same algorithm as above */
 			UV result = 1;
@@ -1295,8 +1295,8 @@ PP(pp_multiply)
 	if (SvIV_please_nomg(svl)) {
 	    bool auvok = SvUOK(svl);
 	    bool buvok = SvUOK(svr);
-	    const UVINT topmask = (~ (UV)0) << (4 * sizeof (UV));
-	    const UVINT botmask = ~((~ (UV)0) << (4 * sizeof (UV)));
+	    const UVINT topmask = (~ (UV)0) << (4 * sizeof (UVINT));
+	    const UVINT botmask = ~((~ (UV)0) << (4 * sizeof (UVINT)));
 	    UVINT alow;
 	    UVINT ahigh;
 	    UVINT blow;
@@ -1329,9 +1329,9 @@ PP(pp_multiply)
 	    }
 
 	    /* If this does sign extension on unsigned it's time for plan B  */
-	    ahigh = alow >> (4 * sizeof (UV));
+	    ahigh = alow >> (4 * sizeof (UVINT));
 	    alow &= botmask;
-	    bhigh = blow >> (4 * sizeof (UV));
+	    bhigh = blow >> (4 * sizeof (UVINT));
 	    blow &= botmask;
 	    if (ahigh && bhigh) {
 		NOOP;
@@ -1373,7 +1373,7 @@ PP(pp_multiply)
 		if (!(product_middle & topmask)) {
 		    /* OK, (ahigh * blow) won't lose bits when we shift it.  */
 		    UV product_low;
-		    product_middle <<= (4 * sizeof (UV));
+		    product_middle <<= (4 * sizeof (UVINT));
 		    product_low = alow * blow;
 
 		    /* as for pp_add, UV + something mustn't get smaller.
