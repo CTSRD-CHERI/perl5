@@ -7811,7 +7811,7 @@ case "$ptraddrsize" in
 #endif
 int main()
 {
-#ifdef _PTRADDR_T
+#ifdef __PTRADDR_TYPE__
     printf("%d\n", (int)sizeof(ptraddr_t));
 #else
     printf("%d\n", (int)sizeof(void *));
