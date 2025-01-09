@@ -1417,8 +1417,8 @@ PP(pp_add)
             il = SvIVX(svl);
             ir = SvIVX(svr);
           do_iv:
-            topl = ((UV)il) >> (UVSIZE * 8 - 2);
-            topr = ((UV)ir) >> (UVSIZE * 8 - 2);
+            topl = ((UV)il) >> (UVINTSIZE * 8 - 2);
+            topr = ((UV)ir) >> (UVINTSIZE * 8 - 2);
 
             /* if both are in a range that can't under/overflow, do a
              * simple integer add: if the top of both numbers
